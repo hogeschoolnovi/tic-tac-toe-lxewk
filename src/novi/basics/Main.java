@@ -1,7 +1,6 @@
 package novi.basics;
 
 import java.util.Scanner;
-import novi.basics.Game;
 
 public class Main {
     // Maak een scanner bruikbaar voor alle class-en
@@ -28,7 +27,7 @@ public class Main {
     }
 
     // vragen of de spelers nog een keer willen spelen
-    //1: nog een keer spelen
+    //1: nog een keer spelen'
     //2: van spelers wisselen
     //3: afsluiten
     // speler keuze opslaan

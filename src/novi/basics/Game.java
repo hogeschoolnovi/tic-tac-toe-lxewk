@@ -1,5 +1,6 @@
 package novi.basics;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import novi.basics.Field;
 
@@ -30,7 +31,7 @@ public class Game {
 
 
     public void play() {
-        for (int maxTen = 0; maxTen < 10; maxTen++) {
+        for (int maxTurns = 0; maxTurns < 100; maxTurns++) {
 
             // preset speelbord zonder tokens
             System.out.println();
@@ -47,7 +48,17 @@ public class Game {
                 System.out.println(activePlayerName + ", please choose a field");
 
                 // gekozen veld van de actieve speler opslaan
-                int chosenField = PLAYERINPUT.nextInt();
+                int chosenField = -1;
+                do {
+                    try {
+                        chosenField = PLAYERINPUT.nextInt();
+                    } catch (Exception e) {
+                        PLAYERINPUT.nextInt();
+                        System.out.println("Please enter a number 1 - 9");
+                    }
+                }
+                while (chosenField < 1 && chosenField > 9);
+
                 int chosenIndex = chosenField - 1;
 
                 // als het veld bestaat
@@ -74,8 +85,18 @@ public class Game {
                             System.out.println();
                             System.out.println(player1.getName() + " score: " + player1.getScore());
                             System.out.println(player2.getName() + " score: " + player2.getScore());
-                            // van speler wisselen
-                            changeActivePlayer();
+                            // spelers vragen of ze nog een keer willen spelen
+                            System.out.println();
+                            System.out.println("Play again? y/n");
+                            try {
+                                String again = PLAYERINPUT.next();
+                                playAgain(again);
+                            }
+                            catch (Exception e) {
+                                PLAYERINPUT.next();
+                                System.out.println("Please enter y(es) or n(o)");
+                            }
+
                             break;
                         }
 
@@ -104,7 +125,6 @@ public class Game {
                     maxRounds++;
                     // foutmelding tonen aan de speler
                     System.out.println("the chosen field does not exist, try again");
-
                 }
             }
         }
@@ -240,6 +260,17 @@ public class Game {
         else {
             // maak de actieve speler weer speler 1
             activePlayer = player1;
+        }
+    }
+
+    // nogmaals spelen?
+    public void playAgain (String again) {
+        if (again.equals("y")) {
+            changeActivePlayer();
+        }
+        else {
+            System.out.println("Thank you for playing, have a nice day.");
+            System.exit(0);
         }
     }
 
