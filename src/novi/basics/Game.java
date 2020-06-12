@@ -1,8 +1,6 @@
 package novi.basics;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
-import novi.basics.Field;
 
 import static novi.basics.Main.PLAYERINPUT;
 
@@ -49,20 +47,20 @@ public class Game {
 
                 // gekozen veld van de actieve speler opslaan
                 int chosenField = -1;
-                do {
+                if(chosenField == -1) {
                     try {
                         chosenField = PLAYERINPUT.nextInt();
-                    } catch (Exception e) {
-                        PLAYERINPUT.nextInt();
-                        System.out.println("Please enter a number 1 - 9");
+                    } catch (InputMismatchException inputMismatchException) {
+                        inputMismatchException.printStackTrace();
+                        chosenField = -1;
+                        System.out.println("Please select a number between 1 and 9.");
                     }
                 }
-                while (chosenField < 1 && chosenField > 9);
 
                 int chosenIndex = chosenField - 1;
 
                 // als het veld bestaat
-                if (chosenIndex < 9 && chosenIndex >= 0) {
+                if (checkValidInput(chosenIndex)) {
                     // bij een leeg veld ,dus zonder een token
                     if (newBoard[chosenIndex].getValue() != 'x' && newBoard[chosenIndex].getValue() != 'o') {
                         // de token van de actieve speler op het gekozen veld plaatsen
@@ -101,7 +99,7 @@ public class Game {
                         }
 
                         // wanneer we in de laatste beurt zijn en niemand gewonnen heeft
-                        else if (round == maxRounds - 1 && winner == false) {
+                        else if (round == maxRounds - 1) {
                             // aantal keer gelijk spel ophogen
                             draw++;
                             // aantal keer gelijk spel tonen
@@ -272,6 +270,13 @@ public class Game {
             System.out.println("Thank you for playing, have a nice day.");
             System.exit(0);
         }
+    }
+
+    public boolean checkValidInput(int chosenIndex) {
+        if(chosenIndex < 9 && chosenIndex >= 0) {
+                return true;
+        }
+        return false;
     }
 
 }
