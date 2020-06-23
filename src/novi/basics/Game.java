@@ -52,12 +52,12 @@ public class Game {
                 do {
                     try {
                         chosenField = PLAYERINPUT.nextInt();
-                    } catch (Exception e) {
-                        PLAYERINPUT.nextInt();
+                    } catch (InputMismatchException ime) {
                         System.out.println("Please enter a number 1 - 9");
                     }
+                    PLAYERINPUT.nextLine();
                 }
-                while (chosenField < 1 && chosenField > 9);
+                while (chosenField < 1 || chosenField > 9);
 
                 int chosenIndex = chosenField - 1;
 
@@ -101,7 +101,7 @@ public class Game {
                         }
 
                         // wanneer we in de laatste beurt zijn en niemand gewonnen heeft
-                        else if (round == maxRounds - 1 && winner == false) {
+                        else if (round == maxRounds - 1 && !winner) {
                             // aantal keer gelijk spel ophogen
                             draw++;
                             // aantal keer gelijk spel tonen
